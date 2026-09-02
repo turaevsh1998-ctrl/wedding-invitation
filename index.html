@@ -340,6 +340,147 @@
   }
   .map-btn:hover{ background: var(--gold); color: var(--ink); }
 
+  /* flourish divider */
+  .flourish{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+  .flourish svg{ width: 90px; height: 14px; }
+  .flourish .dot{
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* gallery */
+  .gallery{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px;
+  }
+  .gallery figure{
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    aspect-ratio: 3/4;
+    position: relative;
+  }
+  .gallery figure:first-child{ grid-row: span 2; }
+  .gallery img{
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .gallery img.broken{ display: none; }
+  .gallery .placeholder{
+    display: none;
+    position: absolute; inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(246,238,221,0.35);
+    text-align: center;
+    padding: 12px;
+  }
+  .gallery figure.empty .placeholder{ display: flex; }
+  .gallery .placeholder svg{ width: 26px; height: 26px; opacity: 0.6; }
+  .gallery .placeholder span{
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+  }
+
+  /* RSVP */
+  .rsvp{
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 36px 28px;
+    background: rgba(255,255,255,0.02);
+    text-align: center;
+  }
+  .rsvp p{
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(246,238,221,0.7);
+    margin: 0 0 24px;
+  }
+  .rsvp-field{
+    text-align: left;
+    margin-bottom: 18px;
+  }
+  .rsvp-field label{
+    display: block;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    color: var(--rose);
+    margin-bottom: 8px;
+  }
+  .rsvp-field input[type="text"]{
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--paper);
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+  }
+  .rsvp-field input[type="text"]:focus{
+    outline: none;
+    border-color: var(--gold);
+  }
+  .rsvp-options{
+    display: flex;
+    gap: 10px;
+  }
+  .rsvp-options button{
+    flex: 1;
+    padding: 12px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--paper);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s, color 0.25s;
+  }
+  .rsvp-options button.selected{
+    border-color: var(--gold);
+    background: rgba(198,161,91,0.16);
+    color: var(--gold-2);
+  }
+  .rsvp-submit{
+    width: 100%;
+    margin-top: 22px;
+    border: 1px solid var(--gold);
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: opacity 0.25s;
+  }
+  .rsvp-submit:hover{ opacity: 0.88; }
+  .rsvp-note{
+    font-size: 11px;
+    color: rgba(246,238,221,0.4);
+    margin-top: 14px;
+  }
+
   /* closing */
   .closing{
     text-align: center;
@@ -430,6 +571,13 @@
       <span data-lang-block="uz" class="active">Dushanba, 26 Oktabr 2026</span>
       <span data-lang-block="ru">Понедельник, 26 Октября 2026</span>
     </div>
+    <div class="flourish" style="margin-top:34px;">
+      <span class="dot"></span>
+      <svg viewBox="0 0 90 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 7C15 7 15 1 30 1C40 1 40 7 45 7C50 7 50 1 60 1C75 1 75 7 90 7" stroke="currentColor" stroke-width="1"/>
+      </svg>
+      <span class="dot"></span>
+    </div>
   </section>
 
   <div class="divider"></div>
@@ -444,6 +592,41 @@
       <div class="cell"><span class="num" id="cd-hours">00</span><span class="label" data-lang-block="uz" data-active="1">SOAT</span><span class="label" data-lang-block="ru">ЧАСОВ</span></div>
       <div class="cell"><span class="num" id="cd-mins">00</span><span class="label" data-lang-block="uz" data-active="1">DAQIQA</span><span class="label" data-lang-block="ru">МИНУТ</span></div>
       <div class="cell"><span class="num" id="cd-secs">00</span><span class="label" data-lang-block="uz" data-active="1">SONIYA</span><span class="label" data-lang-block="ru">СЕКУНД</span></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="gallery-section">
+    <h3 class="section-title">
+      <span data-lang-block="uz" class="active">Bizning suratlarimiz</span>
+      <span data-lang-block="ru">Наши фотографии</span>
+    </h3>
+    <div class="gallery">
+      <figure class="empty">
+        <img src="assets/photo_2026-08-29_18-17-06.jpg" alt="" onerror="this.classList.add('broken'); this.parentElement.classList.add('empty')" onload="this.parentElement.classList.remove('empty')">
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5.5-5.5L11 15"/></svg>
+          <span data-lang-block="uz" class="active">assets/photo1.jpg</span>
+          <span data-lang-block="ru">assets/photo1.jpg</span>
+        </div>
+      </figure>
+      <figure class="empty">
+        <img src="assets/photo_2026-09-02_12-45-39.jpg" alt="" onerror="this.classList.add('broken'); this.parentElement.classList.add('empty')" onload="this.parentElement.classList.remove('empty')">
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5.5-5.5L11 15"/></svg>
+          <span data-lang-block="uz" class="active">assets/photo2.jpg</span>
+          <span data-lang-block="ru">assets/photo2.jpg</span>
+        </div>
+      </figure>
+      <figure class="empty">
+        <img src="assets/photo3.jpg" alt="" onerror="this.classList.add('broken'); this.parentElement.classList.add('empty')" onload="this.parentElement.classList.remove('empty')">
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5.5-5.5L11 15"/></svg>
+          <span data-lang-block="uz" class="active">assets/photo3.jpg</span>
+          <span data-lang-block="ru">assets/photo3.jpg</span>
+        </div>
+      </figure>
     </div>
   </section>
 
@@ -503,6 +686,46 @@
         <span data-lang-block="uz" class="active">Xaritada ko'rish</span>
         <span data-lang-block="ru">Открыть на карте</span>
       </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="rsvp-section">
+    <h3 class="section-title">
+      <span data-lang-block="uz" class="active">Ishtirokingizni bildiring</span>
+      <span data-lang-block="ru">Подтвердите участие</span>
+    </h3>
+    <div class="rsvp">
+      <p>
+        <span data-lang-block="uz" class="active">Rejalarimizni aniqlashtirishga yordam bering — ismingizni yozib, kelish-kelmasligingizni belgilang.</span>
+        <span data-lang-block="ru">Помогите нам спланировать торжество — укажите имя и отметьте, сможете ли прийти.</span>
+      </p>
+      <div class="rsvp-field">
+        <label>
+          <span data-lang-block="uz" class="active">Ismingiz</span>
+          <span data-lang-block="ru">Ваше имя</span>
+        </label>
+        <input type="text" id="rsvp-name" placeholder="">
+      </div>
+      <div class="rsvp-options">
+        <button type="button" data-value="Kelaman" id="rsvp-yes">
+          <span data-lang-block="uz" class="active">Kelaman</span>
+          <span data-lang-block="ru">Приду</span>
+        </button>
+        <button type="button" data-value="Kelolmayman" id="rsvp-no">
+          <span data-lang-block="uz" class="active">Kelolmayman</span>
+          <span data-lang-block="ru">Не смогу</span>
+        </button>
+      </div>
+      <button type="button" class="rsvp-submit" id="rsvp-submit">
+        <span data-lang-block="uz" class="active">Yuborish</span>
+        <span data-lang-block="ru">Отправить</span>
+      </button>
+      <div class="rsvp-note">
+        <span data-lang-block="uz" class="active">Tugma bosilganda WhatsApp orqali xabar tayyor holda ochiladi</span>
+        <span data-lang-block="ru">При нажатии откроется готовое сообщение в WhatsApp</span>
+      </div>
     </div>
   </section>
 
@@ -588,6 +811,50 @@
 
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  // ---------- RSVP ----------
+  // TODO: change this to the WhatsApp number that should receive RSVP messages
+  // Format: country code + number, no spaces, no plus sign (e.g. 998901234567)
+  const RSVP_WHATSAPP_NUMBER = '998901234567';
+
+  const rsvpYes = document.getElementById('rsvp-yes');
+  const rsvpNo = document.getElementById('rsvp-no');
+  const rsvpNameInput = document.getElementById('rsvp-name');
+  const rsvpSubmit = document.getElementById('rsvp-submit');
+  let rsvpChoice = null;
+
+  function selectRsvp(choice, btn){
+    rsvpChoice = choice;
+    rsvpYes.classList.toggle('selected', btn === rsvpYes);
+    rsvpNo.classList.toggle('selected', btn === rsvpNo);
+  }
+  rsvpYes.addEventListener('click', () => selectRsvp('Kelaman', rsvpYes));
+  rsvpNo.addEventListener('click', () => selectRsvp('Kelolmayman', rsvpNo));
+
+  rsvpSubmit.addEventListener('click', () => {
+    const name = rsvpNameInput.value.trim();
+    const lang = document.documentElement.lang || 'uz';
+
+    if (!name){
+      rsvpNameInput.focus();
+      rsvpNameInput.style.borderColor = '#B5677A';
+      setTimeout(() => { rsvpNameInput.style.borderColor = ''; }, 1500);
+      return;
+    }
+    if (!rsvpChoice){
+      rsvpYes.style.borderColor = '#B5677A';
+      rsvpNo.style.borderColor = '#B5677A';
+      setTimeout(() => { rsvpYes.style.borderColor = ''; rsvpNo.style.borderColor = ''; }, 1500);
+      return;
+    }
+
+    const message = lang === 'ru'
+      ? `Здравствуйте! Это ${name}. Насчёт свадьбы: ${rsvpChoice === 'Kelaman' ? 'приду' : 'не смогу прийти'}.`
+      : `Assalomu alaykum! Bu ${name}. To'yga: ${rsvpChoice === 'Kelaman' ? 'kelaman' : 'kela olmayman'}.`;
+
+    const url = `https://wa.me/${RSVP_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  });
 </script>
 
 </body>
