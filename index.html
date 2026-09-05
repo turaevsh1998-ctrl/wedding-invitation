@@ -3,448 +3,796 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#B25470">
-<title>Feruzbek &amp; Odinaxon — Taklifnoma</title>
+<title>Taklifnoma</title>
+<meta name="theme-color" content="#1E1526">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
   :root{
-    --ivory:#FFF8F3;
-    --blush:#F3D9DE;
-    --blush-soft:#FBEDEF;
-    --rose:#B25470;
-    --rose-deep:#8C3A54;
-    --gold:#C6963C;
-    --gold-soft:#E4C583;
-    --plum:#3A1F2B;
-    --sage:#7C8B5D;
+    --ink:      #1E1526;
+    --ink-2:    #150F1C;
+    --paper:    #F6EEDD;
+    --gold:     #C6A15B;
+    --gold-2:   #E8CE96;
+    --rose:     #A6717E;
+    --line:     rgba(230, 213, 168, 0.28);
   }
 
-  *{box-sizing:border-box; margin:0; padding:0;}
-
-  html{scroll-behavior:smooth;}
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
 
   body{
-    background:var(--ivory);
-    color:var(--plum);
-    font-family:'Jost', sans-serif;
-    font-weight:300;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
+
+  .serif{ font-family: 'Cormorant Garamond', serif; }
 
   @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   }
 
-  .serif{font-family:'Cormorant Garamond', serif;}
-
-  /* ---------- Floral line-art ornaments ---------- */
-  .ornament{display:block; margin:0 auto;}
-  .ornament path, .ornament ellipse, .ornament circle{
-    fill:none; stroke-linecap:round; stroke-linejoin:round;
+  /* ---------- top controls ---------- */
+  .top-controls{
+    position: fixed;
+    top: 18px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px;
+    z-index: 40;
   }
 
-  /* ---------- Cover ---------- */
+  .lang-toggle{
+    display: flex;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(21,15,28,0.5);
+    backdrop-filter: blur(6px);
+  }
+  .lang-toggle button{
+    border: 0;
+    background: transparent;
+    color: var(--gold-2);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 8px 14px;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.25s, background 0.25s;
+  }
+  .lang-toggle button.active{
+    opacity: 1;
+    background: rgba(198,161,91,0.18);
+  }
+
+  .music-btn{
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(21,15,28,0.5);
+    backdrop-filter: blur(6px);
+    color: var(--gold-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .music-btn svg{ width: 16px; height: 16px; }
+  .music-btn .bars span{
+    display:inline-block;
+    width: 2px;
+    background: var(--gold-2);
+    margin: 0 1px;
+    animation: bar 0.9s ease-in-out infinite;
+  }
+  .music-btn.playing .bars span:nth-child(1){ height: 6px; animation-delay: 0s; }
+  .music-btn.playing .bars span:nth-child(2){ height: 12px; animation-delay: 0.15s; }
+  .music-btn.playing .bars span:nth-child(3){ height: 8px; animation-delay: 0.3s; }
+  .music-btn:not(.playing) .bars span{ height: 8px; animation: none; opacity: 0.4; }
+  @keyframes bar{
+    0%,100%{ transform: scaleY(0.5); }
+    50%{ transform: scaleY(1.15); }
+  }
+
+  /* ---------- cover screen ---------- */
   #cover{
-    position:fixed; inset:0; z-index:50;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
     background:
-      radial-gradient(circle at 50% 18%, var(--blush-soft) 0%, var(--ivory) 55%);
-    text-align:center;
-    padding:8vh 6vw;
-    transition:opacity 1s ease, visibility 1s ease;
+      radial-gradient(120% 90% at 50% 0%, #2A1D38 0%, var(--ink) 60%);
+    transition: opacity 0.9s ease, visibility 0.9s ease;
   }
-  #cover.hidden{opacity:0; visibility:hidden; pointer-events:none;}
+  #cover.hidden{
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 
-  .cover-ring{
-    width:min(78vw, 340px); height:min(78vw, 340px);
-    border:1px solid var(--gold-soft);
-    border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    flex-direction:column;
-    position:relative;
+  .motif{
+    width: 46px; height: 46px;
+    margin-bottom: 22px;
+    opacity: 0.9;
   }
-  .cover-ring::before{
-    content:'';
-    position:absolute; inset:14px;
-    border:1px solid var(--gold-soft);
-    border-radius:50%;
-    opacity:.6;
-  }
-  .cover-lang{
-    position:absolute; top:6vh; display:flex; gap:14px;
-    font-family:'Jost'; font-size:12px; letter-spacing:.12em; color:var(--rose-deep);
-  }
-  .cover-lang span{opacity:.4; cursor:pointer;}
-  .cover-lang span.active{opacity:1; border-bottom:1px solid var(--rose-deep); padding-bottom:2px;}
 
-  .cover-monogram{
-    font-family:'Cormorant Garamond'; font-style:italic; font-weight:500;
-    font-size:clamp(40px, 12vw, 58px);
-    color:var(--rose-deep);
-    line-height:1;
+  .cover-eyebrow{
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--rose);
+    margin-bottom: 18px;
   }
-  .cover-amp{color:var(--gold); font-size:.65em; margin:0 6px; vertical-align:-2px;}
 
   .cover-names{
-    margin-top:14px; font-family:'Jost'; font-weight:400; font-size:13px;
-    letter-spacing:.22em; color:var(--plum); opacity:.75;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(38px, 11vw, 62px);
+    line-height: 1.15;
+    color: var(--gold-2);
+    margin: 0 0 14px;
   }
 
   .cover-date{
-    margin-top:26px; font-family:'Cormorant Garamond'; font-size:17px;
-    color:var(--rose); letter-spacing:.08em;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: rgba(246,238,221,0.7);
+    margin-bottom: 46px;
   }
 
-  .cover-tap{
-    margin-top:5vh; font-size:11px; letter-spacing:.18em; color:var(--gold);
-    display:flex; flex-direction:column; align-items:center; gap:10px;
-    cursor:pointer; background:none; border:none; font-family:'Jost';
+  .open-btn{
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold-2);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 14px 32px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
   }
-  .cover-tap-circle{
-    width:46px; height:46px; border-radius:50%;
-    border:1px solid var(--gold);
-    display:flex; align-items:center; justify-content:center;
-    animation:pulse 2.6s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{transform:scale(1); opacity:.75;}
-    50%{transform:scale(1.08); opacity:1;}
+  .open-btn:hover{ background: var(--gold); color: var(--ink); }
+  .open-btn:focus-visible{ outline: 2px solid var(--gold-2); outline-offset: 3px; }
+
+  /* ---------- main content ---------- */
+  main{
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
   }
 
-  /* ---------- Main content ---------- */
-  #book{
-    opacity:0; transition:opacity 1.1s ease;
-  }
-  #book.visible{opacity:1;}
-
-  .section{
-    position:relative;
-    padding:15vh 8vw;
-    text-align:center;
-    max-width:640px;
-    margin:0 auto;
+  section{
+    padding: 96px 0 0;
   }
 
-  .eyebrow{
-    font-family:'Jost'; font-size:11px; letter-spacing:.2em; color:var(--sage);
-    margin-bottom:18px;
+  .divider{
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(var(--line), transparent);
+    margin: 0 auto;
   }
 
-  h1.names{
-    font-family:'Cormorant Garamond'; font-weight:500;
-    font-size:clamp(34px, 8vw, 52px);
-    color:var(--rose-deep);
-    line-height:1.15;
+  /* hero */
+  .hero{
+    text-align: center;
+    padding-top: 120px;
   }
-  h1.names em{
-    font-style:italic; color:var(--gold);
+  .hero p.lede{
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(246,238,221,0.72);
+    max-width: 380px;
+    margin: 22px auto 0;
   }
-
-  .lead{
-    font-family:'Cormorant Garamond'; font-size:clamp(19px, 4.4vw, 24px);
-    line-height:1.65; color:var(--plum); margin:26px auto 0; max-width:34ch;
+  .hero .names{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(46px, 13vw, 78px);
+    line-height: 1.08;
+    color: var(--gold-2);
+    margin: 18px 0 6px;
   }
-
-  .greeting-open{
-    font-family:'Jost'; font-size:14px; letter-spacing:.06em; color:var(--rose);
-    margin-bottom:10px;
+  .hero .amp{
+    display: block;
+    font-style: italic;
+    color: var(--rose);
+    font-size: 0.5em;
+    margin: 6px 0;
   }
-
-  .signature{
-    margin-top:38px; font-family:'Jost'; font-size:12px; letter-spacing:.14em;
-    color:var(--sage);
-  }
-  .signature .sig-names{
-    display:block; margin-top:10px; font-family:'Cormorant Garamond'; font-style:italic;
-    font-size:22px; color:var(--rose-deep); letter-spacing:0;
-  }
-
-  .divider{margin:56px auto; width:min(70%, 220px);}
-
-  /* Program card */
-  .program-card{
-    background:var(--blush-soft);
-    border:1px solid var(--blush);
-    border-radius:2px;
-    padding:44px 30px;
-    position:relative;
-  }
-  .program-card::before, .program-card::after{
-    content:''; position:absolute; width:22px; height:22px;
-    border:1px solid var(--gold);
-  }
-  .program-card::before{top:10px; left:10px; border-right:none; border-bottom:none;}
-  .program-card::after{bottom:10px; right:10px; border-left:none; border-top:none;}
-
-  .program-title{
-    font-family:'Cormorant Garamond'; font-style:italic; font-weight:500;
-    font-size:clamp(26px, 6vw, 34px);
-    color:var(--rose-deep);
+  .hero .date-line{
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: rgba(246,238,221,0.6);
   }
 
-  .program-date{
-    margin-top:16px; font-family:'Jost'; font-size:13px; letter-spacing:.14em;
-    color:var(--plum);
+  /* section headings */
+  .section-title{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 30px;
+    text-align: center;
+    color: var(--gold-2);
+    margin: 0 0 44px;
   }
-  .program-date b{color:var(--rose); font-weight:500;}
 
-  .program-time{
-    margin-top:22px; font-family:'Cormorant Garamond'; font-size:44px; color:var(--gold);
-    line-height:1;
-  }
-  .program-time span{font-size:15px; font-family:'Jost'; color:var(--sage); letter-spacing:.1em; display:block; margin-top:8px;}
-
-  .program-venue{
-    margin-top:26px; font-family:'Jost'; font-size:14px; line-height:1.8; color:var(--plum);
-  }
-  .program-venue b{display:block; font-family:'Cormorant Garamond'; font-style:italic; font-size:20px; color:var(--rose-deep); margin-bottom:4px; font-weight:500;}
-
-  /* Countdown */
+  /* countdown */
   .countdown{
-    display:flex; justify-content:center; gap:clamp(10px,3.5vw,26px);
-    margin-top:34px; flex-wrap:wrap;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-  .cd-unit{display:flex; flex-direction:column; align-items:center; min-width:56px;}
-  .cd-num{
-    font-family:'Cormorant Garamond'; font-weight:600; font-size:clamp(30px,7vw,42px);
-    color:var(--rose-deep);
+  .countdown .cell{
+    width: 74px;
+    text-align: center;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 4px 12px;
+    background: rgba(255,255,255,0.02);
   }
-  .cd-label{
-    margin-top:6px; font-size:10px; letter-spacing:.14em; color:var(--sage);
+  .countdown .num{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: var(--gold-2);
+    display: block;
+  }
+  .countdown .label{
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: rgba(246,238,221,0.55);
+    display: block;
+    margin-top: 4px;
   }
 
-  /* Map button */
+  /* venue card */
+  .venue{
+    text-align: center;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 36px 28px;
+    background: rgba(255,255,255,0.02);
+  }
+  .venue .title{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    color: var(--gold-2);
+    margin: 0 0 8px;
+  }
+  .venue .addr{
+    font-size: 13.5px;
+    color: rgba(246,238,221,0.68);
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
   .map-btn{
-    display:inline-block; margin-top:32px; padding:13px 34px;
-    border:1px solid var(--rose); color:var(--rose-deep); text-decoration:none;
-    font-family:'Jost'; font-size:12px; letter-spacing:.16em;
-    transition:background .35s ease, color .35s ease;
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold-2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 12px 26px;
+    border-radius: 999px;
+    transition: background 0.3s, color 0.3s;
   }
-  .map-btn:hover{background:var(--rose); color:var(--ivory);}
+  .map-btn:hover{ background: var(--gold); color: var(--ink); }
 
-  /* Closing */
-  .closing-line{
-    font-family:'Cormorant Garamond'; font-style:italic; font-size:clamp(19px,4.6vw,23px);
-    color:var(--plum); line-height:1.7; max-width:32ch; margin:0 auto;
+  /* flourish divider */
+  .flourish{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: var(--gold);
+    opacity: 0.8;
   }
-  .closing-names{
-    margin-top:30px; font-family:'Cormorant Garamond'; font-weight:500; font-size:clamp(30px,7vw,40px);
-    color:var(--rose-deep);
-  }
-  .closing-date{
-    margin-top:10px; font-family:'Jost'; font-size:12px; letter-spacing:.2em; color:var(--gold);
-  }
-
-  footer{
-    text-align:center; padding:6vh 6vw 8vh; font-family:'Jost'; font-size:10px;
-    letter-spacing:.1em; color:var(--sage); opacity:.7;
+  .flourish svg{ width: 90px; height: 14px; }
+  .flourish .dot{
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
   }
 
-  /* sound toggle */
-  #sound-toggle{
-    position:fixed; bottom:22px; right:22px; z-index:40;
-    width:42px; height:42px; border-radius:50%;
-    background:var(--ivory); border:1px solid var(--gold-soft);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer; opacity:0; transition:opacity .6s ease;
-    box-shadow:0 2px 10px rgba(140,58,84,.12);
+  /* gallery */
+  .gallery{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
-  #sound-toggle.visible{opacity:1;}
-  #sound-toggle svg{width:18px; height:18px;}
+  .gallery figure{
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    aspect-ratio: 3/4;
+    position: relative;
+  }
+  .gallery img{
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .gallery img.broken{ display: none; }
+  .gallery .placeholder{
+    display: none;
+    position: absolute; inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(246,238,221,0.35);
+    text-align: center;
+    padding: 12px;
+  }
+  .gallery figure.empty .placeholder{ display: flex; }
+  .gallery .placeholder svg{ width: 26px; height: 26px; opacity: 0.6; }
+  .gallery .placeholder span{
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+  }
 
-  /* ---------- Language blocks ---------- */
-  [data-lang]{display:none;}
-  [data-lang].lang-active{display:inline;}
-  span[data-lang].lang-active{display:inline;}
-  div[data-lang].lang-active{display:block;}
+  /* RSVP */
+  .rsvp{
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 36px 28px;
+    background: rgba(255,255,255,0.02);
+    text-align: center;
+  }
+  .rsvp p{
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(246,238,221,0.7);
+    margin: 0 0 24px;
+  }
+  .rsvp-field{
+    text-align: left;
+    margin-bottom: 18px;
+  }
+  .rsvp-field label{
+    display: block;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    color: var(--rose);
+    margin-bottom: 8px;
+  }
+  .rsvp-field input[type="text"]{
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--paper);
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+  }
+  .rsvp-field input[type="text"]:focus{
+    outline: none;
+    border-color: var(--gold);
+  }
+  .rsvp-options{
+    display: flex;
+    gap: 10px;
+  }
+  .rsvp-options button{
+    flex: 1;
+    padding: 12px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--paper);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s, color 0.25s;
+  }
+  .rsvp-options button.selected{
+    border-color: var(--gold);
+    background: rgba(198,161,91,0.16);
+    color: var(--gold-2);
+  }
+  .rsvp-submit{
+    width: 100%;
+    margin-top: 22px;
+    border: 1px solid var(--gold);
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: opacity 0.25s;
+  }
+  .rsvp-submit:hover{ opacity: 0.88; }
+  .rsvp-note{
+    font-size: 11px;
+    color: rgba(246,238,221,0.4);
+    margin-top: 14px;
+  }
+
+  /* closing */
+  .closing{
+    text-align: center;
+    padding-bottom: 40px;
+  }
+  .closing p{
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(246,238,221,0.72);
+    max-width: 340px;
+    margin: 0 auto 30px;
+  }
+  .closing .names{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: var(--gold-2);
+  }
+  .closing .date{
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgba(246,238,221,0.5);
+    margin-top: 8px;
+  }
+  .closing .ayat{
+    margin-top: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--rose);
+  }
+
+  [data-lang-block]{ display: none; }
+  [data-lang-block].active{ display: block; }
+  span[data-lang-block]{ display: none; }
+  span[data-lang-block].active{ display: inline; }
+
+  ::selection{ background: var(--gold); color: var(--ink); }
 </style>
 </head>
 <body>
 
-<!-- ============ COVER ============ -->
-<div id="cover">
-  <div class="cover-lang">
-    <span class="active" data-lang-btn="uz">UZ</span><span data-lang-btn="ru">RU</span>
+<audio id="bg-music" loop preload="none">
+  <source src="assets/Maher%20Zain%20-%20For%20The%20Rest%20Of%20My%20Life%20(3).mp3" type="audio/mpeg">
+</audio>
+
+<div class="top-controls">
+  <div class="lang-toggle" role="group" aria-label="Til / Язык">
+    <button type="button" data-lang="uz" class="active">UZ</button>
+    <button type="button" data-lang="ru">RU</button>
   </div>
-  <div class="cover-ring">
-    <svg class="ornament" width="120" height="34" viewBox="0 0 120 34" style="position:absolute; top:14%;">
-      <path d="M6 20 C 20 6, 34 6, 40 18 C 46 6, 60 6, 60 18 C 60 6, 74 6, 80 18 C 86 6, 100 6, 114 20" stroke="#C6963C" stroke-width="1"/>
-      <circle cx="40" cy="17" r="1.6" fill="#C6963C"/>
-      <circle cx="80" cy="17" r="1.6" fill="#C6963C"/>
-    </svg>
-    <div class="cover-monogram">F<span class="cover-amp">&amp;</span>O</div>
-    <div class="cover-names">FERUZBEK &nbsp;·&nbsp; ODINAXON</div>
-    <div class="cover-date">
-      <span data-lang="uz" class="lang-active">27 sentabr 2026</span><span data-lang="ru">27 сентября 2026</span>
-    </div>
-  </div>
-  <button id="open-btn" class="cover-tap" aria-label="Taklifnomani ochish">
-    <span class="cover-tap-circle">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C6963C" stroke-width="1.4"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-    </span>
-    <span data-lang="uz" class="lang-active">OCHISH UCHUN BOSING</span><span data-lang="ru">НАЖМИТЕ, ЧТОБЫ ОТКРЫТЬ</span>
+  <button type="button" class="music-btn" id="music-toggle" aria-label="Musiqa">
+    <span class="bars"><span></span><span></span><span></span></span>
   </button>
 </div>
 
-<!-- ============ MAIN CONTENT ============ -->
-<div id="book">
-
-  <div id="sound-toggle" aria-label="Musiqani yoqish/o'chirish">
-    <svg id="sound-icon" viewBox="0 0 24 24" fill="none" stroke="#B25470" stroke-width="1.5">
-      <path d="M4 9v6h4l5 5V4L8 9H4z"/>
-      <path d="M16 8a5 5 0 0 1 0 8" stroke-linecap="round"/>
-    </svg>
+<!-- ============ COVER ============ -->
+<div id="cover">
+  <svg class="motif" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 40C24 40 6 29.6 6 17.8C6 11.8 10.6 8 15.6 8C19.2 8 22.2 10 24 13C25.8 10 28.8 8 32.4 8C37.4 8 42 11.8 42 17.8C42 29.6 24 40 24 40Z" stroke="#E8CE96" stroke-width="1.3"/>
+  </svg>
+  <div class="cover-eyebrow">
+    <span data-lang-block="uz" class="active">Taklifnoma</span>
+    <span data-lang-block="ru">Приглашение</span>
   </div>
-
-  <!-- Greeting -->
-  <section class="section" id="greeting">
-    <svg class="ornament" width="180" height="46" viewBox="0 0 180 46">
-      <path d="M10 30 C 40 6, 60 6, 90 24 C 120 6, 140 6, 170 30" stroke="#C6963C" stroke-width="1"/>
-      <path d="M90 24 v14" stroke="#7C8B5D" stroke-width="1"/>
-      <path d="M90 30 c-6 -4 -6 -10 0 -14 c6 4 6 10 0 14 z" stroke="#7C8B5D" stroke-width="1"/>
-    </svg>
-    <div class="greeting-open" style="margin-top:26px;">
-      <span data-lang="uz" class="lang-active">Hurmatli mehmon,</span><span data-lang="ru">Дорогой гость,</span>
-    </div>
-    <h1 class="names">Feruzbek <em>&amp;</em> Odinaxon</h1>
-    <p class="lead">
-      <span data-lang="uz" class="lang-active">Ikki qalbning bir umrga birlashuvi shohidi bo'lishingizni astoydil istaymiz</span><span data-lang="ru">От всей души хотим, чтобы вы стали свидетелем союза двух сердец на всю жизнь</span>
-    </p>
-    <div class="signature">
-      <span data-lang="uz" class="lang-active">MEHR BILAN</span><span data-lang="ru">С ЛЮБОВЬЮ</span>
-      <span class="sig-names">Feruzbek &amp; Odinaxon</span>
-    </div>
-  </section>
-
-  <!-- Program -->
-  <section class="section" id="program">
-    <div class="eyebrow">
-      <span data-lang="uz" class="lang-active">To'y dasturi</span><span data-lang="ru">Программа торжества</span>
-    </div>
-    <div class="program-card">
-      <div class="program-title">
-        <span data-lang="uz" class="lang-active">Qizlar bazmi</span><span data-lang="ru">Девичник</span>
-      </div>
-      <div class="program-date">
-        <span data-lang="uz" class="lang-active">27 SENTABR &nbsp;·&nbsp; <b>YAKSHANBA</b></span><span data-lang="ru">27 СЕНТЯБРЯ &nbsp;·&nbsp; <b>ВОСКРЕСЕНЬЕ</b></span>
-      </div>
-      <div class="program-time">9:30<span>
-        <span data-lang="uz" class="lang-active">BOSHLANISH VAQTI</span><span data-lang="ru">ВРЕМЯ НАЧАЛА</span>
-      </span></div>
-      <div class="program-venue">
-        <b>TURON to'yxonasi</b>
-        <span data-lang="uz" class="lang-active">Yakkabog' tumani, Turon qishlog'i</span><span data-lang="ru">Яккабагский район, село Турон</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Countdown -->
-  <section class="section" id="countdown-section">
-    <div class="eyebrow">
-      <span data-lang="uz" class="lang-active">Bayramgacha qoldi</span><span data-lang="ru">Осталось до праздника</span>
-    </div>
-    <div class="countdown">
-      <div class="cd-unit"><div class="cd-num" id="cd-days">00</div><div class="cd-label"><span data-lang="uz" class="lang-active">KUN</span><span data-lang="ru">ДНЕЙ</span></div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-hours">00</div><div class="cd-label"><span data-lang="uz" class="lang-active">SOAT</span><span data-lang="ru">ЧАСОВ</span></div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-mins">00</div><div class="cd-label"><span data-lang="uz" class="lang-active">DAQIQA</span><span data-lang="ru">МИНУТ</span></div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-secs">00</div><div class="cd-label"><span data-lang="uz" class="lang-active">SONIYA</span><span data-lang="ru">СЕКУНД</span></div></div>
-    </div>
-    <a class="map-btn" id="map-link" href="#" target="_blank" rel="noopener">
-      <span data-lang="uz" class="lang-active">XARITADA KO'RISH</span><span data-lang="ru">ОТКРЫТЬ НА КАРТЕ</span>
-    </a>
-  </section>
-
-  <!-- Closing -->
-  <section class="section" id="closing">
-    <svg class="ornament" width="60" height="60" viewBox="0 0 60 60" style="margin-bottom:8px;">
-      <circle cx="30" cy="30" r="18" stroke="#C6963C" stroke-width="1"/>
-      <circle cx="30" cy="30" r="3" fill="#C6963C" stroke="none"/>
-    </svg>
-    <p class="closing-line">
-      <span data-lang="uz" class="lang-active">Biz uchun eng katta sovg'a — baxtli kunimizda yonimizda bo'lishingizdir</span><span data-lang="ru">Самый ценный подарок для нас — быть рядом с нами в этот счастливый день</span>
-    </p>
-    <div class="closing-names">Feruzbek &amp; Odinaxon</div>
-    <div class="closing-date">27 · 09 · 2026</div>
-  </section>
-
-  <footer>
-    <span data-lang="uz" class="lang-active">TURON TO'YXONASI &nbsp;·&nbsp; YAKKABOG'</span><span data-lang="ru">TURON TO'YXONASI &nbsp;·&nbsp; ЯККАБАГ</span>
-  </footer>
-
-  <!-- Background music: replace the file at assets/music.mp3 with your own track -->
-  <audio id="bgm" loop preload="none">
-    <source src="assets/music.mp3" type="audio/mpeg">
-  </audio>
+  <h1 class="cover-names">Shaxzod &amp; Gulizaxon</h1>
+  <div class="cover-date">
+    <span data-lang-block="uz" class="active">26 Oktabr 2026</span>
+    <span data-lang-block="ru">26 Октября 2026</span>
+  </div>
+  <button type="button" class="open-btn" id="open-btn">
+    <span data-lang-block="uz" class="active">Ochish uchun bosing</span>
+    <span data-lang-block="ru">Нажмите, чтобы открыть</span>
+  </button>
 </div>
 
+<!-- ============ MAIN ============ -->
+<main>
+
+  <section class="hero">
+    <div>
+      <span data-lang-block="uz" class="active" style="font-size:13px;letter-spacing:.1em;color:var(--rose);">Hurmatli aziz insonimiz!</span>
+      <span data-lang-block="ru" style="font-size:13px;letter-spacing:.1em;color:var(--rose);">Дорогой и любимый гость!</span>
+    </div>
+    <h2 class="names">
+      Shaxzod
+      <span class="amp">&amp;</span>
+      Gulizaxon
+    </h2>
+    <p class="lede">
+      <span data-lang-block="uz" class="active">Hayotimizdagi eng baxtli kunni — nikoh to'yimizni — siz bilan baham ko'rishni orzu qilamiz. Baxtimizga sherik bo'lishingizni istaymiz!</span>
+      <span data-lang-block="ru">Хотим разделить с вами самый счастливый день нашей жизни — день нашей свадьбы. Будем искренне рады видеть вас рядом!</span>
+    </p>
+    <div class="date-line">
+      <span data-lang-block="uz" class="active">To'y kuni: Dushanba, 26 Oktabr 2026</span>
+      <span data-lang-block="ru">День свадьбы: Понедельник, 26 Октября 2026</span>
+    </div>
+    <div class="flourish" style="margin-top:34px;">
+      <span class="dot"></span>
+      <svg viewBox="0 0 90 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 7C15 7 15 1 30 1C40 1 40 7 45 7C50 7 50 1 60 1C75 1 75 7 90 7" stroke="currentColor" stroke-width="1"/>
+      </svg>
+      <span class="dot"></span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="countdown-section">
+    <h3 class="section-title">
+      <span data-lang-block="uz" class="active">To'yimizgacha</span>
+      <span data-lang-block="ru">До нашей свадьбы</span>
+    </h3>
+    <div class="countdown">
+      <div class="cell"><span class="num" id="cd-days">00</span><span class="label" data-lang-block="uz" data-active="1">KUN</span><span class="label" data-lang-block="ru">ДНЕЙ</span></div>
+      <div class="cell"><span class="num" id="cd-hours">00</span><span class="label" data-lang-block="uz" data-active="1">SOAT</span><span class="label" data-lang-block="ru">ЧАСОВ</span></div>
+      <div class="cell"><span class="num" id="cd-mins">00</span><span class="label" data-lang-block="uz" data-active="1">DAQIQA</span><span class="label" data-lang-block="ru">МИНУТ</span></div>
+      <div class="cell"><span class="num" id="cd-secs">00</span><span class="label" data-lang-block="uz" data-active="1">SONIYA</span><span class="label" data-lang-block="ru">СЕКУНД</span></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="gallery-section">
+    <h3 class="section-title">
+      <span data-lang-block="uz" class="active">Bizning suratlarimiz</span>
+      <span data-lang-block="ru">Наши фотографии</span>
+    </h3>
+    <div class="gallery">
+      <figure class="empty">
+        <img src="assets/photo_2026-08-29_18-17-06.jpg" alt="" onerror="this.classList.add('broken'); this.parentElement.classList.add('empty')" onload="this.parentElement.classList.remove('empty')">
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5.5-5.5L11 15"/></svg>
+          <span data-lang-block="uz" class="active">assets/photo1.jpg</span>
+          <span data-lang-block="ru">assets/photo1.jpg</span>
+        </div>
+      </figure>
+      <figure class="empty">
+        <img src="assets/photo_2026-09-02_12-45-39.jpg" alt="" onerror="this.classList.add('broken'); this.parentElement.classList.add('empty')" onload="this.parentElement.classList.remove('empty')">
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5.5-5.5L11 15"/></svg>
+          <span data-lang-block="uz" class="active">assets/photo2.jpg</span>
+          <span data-lang-block="ru">assets/photo2.jpg</span>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="program-section">
+    <h3 class="section-title">
+      <span data-lang-block="uz" class="active">To'y dasturi</span>
+      <span data-lang-block="ru">Программа торжества</span>
+    </h3>
+    <div class="venue">
+      <div class="title">
+        <span data-lang-block="uz" class="active">Visol oqshomi</span>
+        <span data-lang-block="ru">Вечер Висол</span>
+      </div>
+      <div class="addr">
+        <span data-lang-block="uz" class="active">26 Oktabr, Dushanba — soat 18:00</span>
+        <span data-lang-block="ru">26 октября, понедельник — 18:00</span>
+      </div>
+      <div class="addr" style="margin-top:-14px;">Malika to'yxonasi</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="venue-section">
+    <h3 class="section-title">
+      <span data-lang-block="uz" class="active">Manzil</span>
+      <span data-lang-block="ru">Место проведения</span>
+    </h3>
+    <div class="venue">
+      <div class="title">Malika to'yxonasi</div>
+      <div class="addr">
+        <span data-lang-block="uz" class="active">Qashqadaryo viloyati, Yakkabog' tumani, Samoq qishlog'i</span>
+        <span data-lang-block="ru">Кашкадарьинская область, Яккабагский район, село Самоқ</span>
+      </div>
+      <a class="map-btn" href="https://maps.google.com/?q=38.921282,67.028793" target="_blank" rel="noopener">
+        <span data-lang-block="uz" class="active">Xaritada ko'rish</span>
+        <span data-lang-block="ru">Открыть на карте</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="rsvp-section">
+    <h3 class="section-title">
+      <span data-lang-block="uz" class="active">Ishtirokingizni bildiring</span>
+      <span data-lang-block="ru">Подтвердите участие</span>
+    </h3>
+    <div class="rsvp">
+      <p>
+        <span data-lang-block="uz" class="active">Rejalarimizni aniqlashtirishga yordam bering — ismingizni yozib, kelish-kelmasligingizni belgilang.</span>
+        <span data-lang-block="ru">Помогите нам спланировать торжество — укажите имя и отметьте, сможете ли прийти.</span>
+      </p>
+      <div class="rsvp-field">
+        <label>
+          <span data-lang-block="uz" class="active">Ismingiz</span>
+          <span data-lang-block="ru">Ваше имя</span>
+        </label>
+        <input type="text" id="rsvp-name" placeholder="">
+      </div>
+      <div class="rsvp-options">
+        <button type="button" data-value="Kelaman" id="rsvp-yes">
+          <span data-lang-block="uz" class="active">Kelaman</span>
+          <span data-lang-block="ru">Приду</span>
+        </button>
+        <button type="button" data-value="Kelolmayman" id="rsvp-no">
+          <span data-lang-block="uz" class="active">Kelolmayman</span>
+          <span data-lang-block="ru">Не смогу</span>
+        </button>
+      </div>
+      <button type="button" class="rsvp-submit" id="rsvp-submit">
+        <span data-lang-block="uz" class="active">Yuborish</span>
+        <span data-lang-block="ru">Отправить</span>
+      </button>
+      <div class="rsvp-note">
+        <span data-lang-block="uz" class="active">Tugma bosilganda WhatsApp orqali xabar tayyor holda ochiladi</span>
+        <span data-lang-block="ru">При нажатии откроется готовое сообщение в WhatsApp</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="closing">
+    <p>
+      <span data-lang-block="uz" class="active">Biz uchun eng katta sovg'a — baxtli kunimizda yonimizda bo'lishingizdir.</span>
+      <span data-lang-block="ru">Самый ценный подарок для нас — ваше присутствие в этот счастливый день.</span>
+    </p>
+    <div class="names">Shaxzod &amp; Gulizaxon</div>
+    <div class="date">
+      <span data-lang-block="uz" class="active">26 Oktabr 2026</span>
+      <span data-lang-block="ru">26 Октября 2026</span>
+    </div>
+    <div class="ayat">
+      <span data-lang-block="uz" class="active">«Alloh ularning qalblarini sevgi ila birlashtirdi»<br>(Anfol surasi, 63-oyat)</span>
+      <span data-lang-block="ru">«Аллах объединил их сердца любовью»<br>(сура Аль-Анфаль, 63-й аят)</span>
+    </div>
+  </section>
+
+</main>
+
 <script>
-  // Language toggle
-  const langButtons = document.querySelectorAll('[data-lang-btn]');
-  function switchLang(lang){
-    langButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.langBtn === lang);
-    });
-    document.querySelectorAll('[data-lang]').forEach(el => {
-      el.classList.toggle('lang-active', el.dataset.lang === lang);
-    });
-    document.documentElement.lang = lang;
-  }
+  // ---------- Language toggle ----------
+  const langButtons = document.querySelectorAll('.lang-toggle button');
   langButtons.forEach(btn => {
-    btn.addEventListener('click', () => switchLang(btn.dataset.langBtn));
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      langButtons.forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('[data-lang-block]').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-lang-block') === lang);
+      });
+      document.documentElement.lang = lang;
+    });
   });
 
-  // Open the invitation
+  // ---------- Cover open + music start ----------
   const cover = document.getElementById('cover');
-  const book = document.getElementById('book');
   const openBtn = document.getElementById('open-btn');
-  const bgm = document.getElementById('bgm');
-  const soundToggle = document.getElementById('sound-toggle');
-  let playing = false;
+  const audio = document.getElementById('bg-music');
+  const musicToggle = document.getElementById('music-toggle');
+  let musicPlaying = false;
 
   openBtn.addEventListener('click', () => {
     cover.classList.add('hidden');
-    book.classList.add('visible');
-    soundToggle.classList.add('visible');
-    bgm.play().then(() => { playing = true; updateSoundIcon(); }).catch(() => {});
+    audio.play().then(() => {
+      musicPlaying = true;
+      musicToggle.classList.add('playing');
+    }).catch(() => {
+      // autoplay blocked or file missing — user can press the music button manually
+    });
   });
 
-  function updateSoundIcon(){
-    const icon = document.getElementById('sound-icon');
-    icon.innerHTML = playing
-      ? '<path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 8a5 5 0 0 1 0 8" stroke-linecap="round"/>'
-      : '<path d="M4 9v6h4l5 5V4L8 9H4z"/><line x1="16" y1="9" x2="21" y2="15" stroke-linecap="round"/><line x1="21" y1="9" x2="16" y2="15" stroke-linecap="round"/>';
-  }
-
-  soundToggle.addEventListener('click', () => {
-    if (playing) { bgm.pause(); } else { bgm.play().catch(()=>{}); }
-    playing = !playing;
-    updateSoundIcon();
+  musicToggle.addEventListener('click', () => {
+    if (musicPlaying) {
+      audio.pause();
+      musicPlaying = false;
+      musicToggle.classList.remove('playing');
+    } else {
+      audio.play().then(() => {
+        musicPlaying = true;
+        musicToggle.classList.add('playing');
+      }).catch(() => {});
+    }
   });
 
-  // Countdown to 27 Sept 2026, 09:30 (Tashkent, UTC+5)
-  const target = new Date('2026-09-27T09:30:00+05:00').getTime();
-  function tick(){
-    const now = Date.now();
-    let diff = target - now;
+  // ---------- Countdown ----------
+  // TODO: change this to your real wedding date & time
+  const weddingDate = new Date('2026-10-26T18:00:00');
+
+  function updateCountdown(){
+    const now = new Date();
+    let diff = weddingDate - now;
     if (diff < 0) diff = 0;
-    const d = Math.floor(diff / (1000*60*60*24));
-    const h = Math.floor((diff / (1000*60*60)) % 24);
-    const m = Math.floor((diff / (1000*60)) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
-    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
-    document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
-    document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
-  }
-  tick();
-  setInterval(tick, 1000);
 
-  // Map link — precise venue coordinates
-  document.getElementById('map-link').href =
-    'https://www.google.com/maps/search/?api=1&query=38.930775,66.999157';
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ---------- RSVP ----------
+  // TODO: change this to the WhatsApp number that should receive RSVP messages
+  // Format: country code + number, no spaces, no plus sign (e.g. 998901234567)
+  const RSVP_WHATSAPP_NUMBER = '998901234567';
+
+  const rsvpYes = document.getElementById('rsvp-yes');
+  const rsvpNo = document.getElementById('rsvp-no');
+  const rsvpNameInput = document.getElementById('rsvp-name');
+  const rsvpSubmit = document.getElementById('rsvp-submit');
+  let rsvpChoice = null;
+
+  function selectRsvp(choice, btn){
+    rsvpChoice = choice;
+    rsvpYes.classList.toggle('selected', btn === rsvpYes);
+    rsvpNo.classList.toggle('selected', btn === rsvpNo);
+  }
+  rsvpYes.addEventListener('click', () => selectRsvp('Kelaman', rsvpYes));
+  rsvpNo.addEventListener('click', () => selectRsvp('Kelolmayman', rsvpNo));
+
+  rsvpSubmit.addEventListener('click', () => {
+    const name = rsvpNameInput.value.trim();
+    const lang = document.documentElement.lang || 'uz';
+
+    if (!name){
+      rsvpNameInput.focus();
+      rsvpNameInput.style.borderColor = '#B5677A';
+      setTimeout(() => { rsvpNameInput.style.borderColor = ''; }, 1500);
+      return;
+    }
+    if (!rsvpChoice){
+      rsvpYes.style.borderColor = '#B5677A';
+      rsvpNo.style.borderColor = '#B5677A';
+      setTimeout(() => { rsvpYes.style.borderColor = ''; rsvpNo.style.borderColor = ''; }, 1500);
+      return;
+    }
+
+    const message = lang === 'ru'
+      ? `Здравствуйте! Это ${name}. Насчёт свадьбы: ${rsvpChoice === 'Kelaman' ? 'приду' : 'не смогу прийти'}.`
+      : `Assalomu alaykum! Bu ${name}. To'yga: ${rsvpChoice === 'Kelaman' ? 'kelaman' : 'kela olmayman'}.`;
+
+    const url = `https://wa.me/${RSVP_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  });
 </script>
 
 </body>
